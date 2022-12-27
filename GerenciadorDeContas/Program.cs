@@ -1,6 +1,8 @@
 using GerenciadorDeContas.Data;
 using GerenciadorDeContas.Repositorys;
 using GerenciadorDeContas.Repositorys.Interfaces;
+using GerenciadorDeContas.Services;
+using GerenciadorDeContas.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace GerenciadorDeContas
@@ -25,8 +27,8 @@ namespace GerenciadorDeContas
                 ) ;
 
             builder.Services.AddScoped<IContaRepository, ContaRepository>();
+            builder.Services.AddScoped<IContaService, ContaService>();
 
-           
 
             var app = builder.Build();
 
