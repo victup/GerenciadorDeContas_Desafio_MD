@@ -12,7 +12,8 @@ namespace GerenciadorDeContas.Data.Maps
             builder.Property(x => x.Nome).IsRequired().HasMaxLength(255);
             builder.Property(x => x.ValorOriginal).IsRequired();
             builder.Property(x => x.DataVencimento).IsRequired();
-            builder.Property(x => x.DataPagamento).IsRequired();
+            builder.Property(x => x.Atraso).IsRequired();
+            builder.Property(x => x.Regra).IsRequired();
         }
     }
 }

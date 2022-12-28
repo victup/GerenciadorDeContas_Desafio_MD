@@ -20,7 +20,9 @@ namespace GerenciadorDeContas.Migrations
                     Nome = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     ValorOriginal = table.Column<double>(type: "float", nullable: false),
                     DataVencimento = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DataPagamento = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DataPagamento = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Atraso = table.Column<int>(type: "int", nullable: false),
+                    Regra = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

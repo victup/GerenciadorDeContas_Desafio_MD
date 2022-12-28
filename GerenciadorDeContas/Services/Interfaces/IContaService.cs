@@ -1,13 +1,15 @@
-﻿using GerenciadorDeContas.Models;
+﻿using GerenciadorDeContas.DTOs;
+using GerenciadorDeContas.Models;
 
 namespace GerenciadorDeContas.Services.Interfaces
 {
     public interface IContaService
     {
         Task<List<ContaModel>> BuscarTodasAsContas();
-        Task<ContaModel> BuscarConta(int id);
-        Task<ContaModel> AdicionarConta(ContaModel conta);
-        Task<ContaModel> AtualizarConta(ContaModel conta, int id);
+        Task<List<HistoricoContaDTO>> ListarHistoricoDeContas();
+        Task<ContaDTO> BuscarConta(int id);
+        Task<ContaDTO> AdicionarConta(ContaDTO conta);
+        Task<ContaDTO> AtualizarConta(ContaDTO conta, int id);
         Task<bool> ApagarConta(int id);
     }
 }

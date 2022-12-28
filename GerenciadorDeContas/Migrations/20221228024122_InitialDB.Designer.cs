@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GerenciadorDeContas.Migrations
 {
     [DbContext(typeof(GerenciadorDeContasDBContext))]
-    [Migration("20221227185857_InitialDB")]
+    [Migration("20221228024122_InitialDB")]
     partial class InitialDB
     {
         /// <inheritdoc />
@@ -33,8 +33,10 @@ namespace GerenciadorDeContas.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("Atraso")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("DataPagamento")
-                        .IsRequired()
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("DataVencimento")
@@ -45,6 +47,9 @@ namespace GerenciadorDeContas.Migrations
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Regra")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double?>("ValorOriginal")
                         .IsRequired()

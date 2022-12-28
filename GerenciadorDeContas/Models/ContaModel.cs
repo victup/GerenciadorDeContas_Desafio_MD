@@ -1,4 +1,6 @@
-﻿namespace GerenciadorDeContas.Models
+﻿using GerenciadorDeContas.Enums;
+
+namespace GerenciadorDeContas.Models
 {
     public class ContaModel
     {
@@ -7,6 +9,8 @@
         public double? ValorOriginal { get; set; }   
         public DateTime? DataVencimento { get; set; }
         public DateTime? DataPagamento  { get; set; }
+        public int? Atraso { get; set; }
+        public string? Regra { get; set; }
 
     }
 }

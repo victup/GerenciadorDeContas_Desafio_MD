@@ -1,4 +1,5 @@
 ﻿using GerenciadorDeContas.Data;
+using GerenciadorDeContas.Enums;
 using GerenciadorDeContas.Models;
 using GerenciadorDeContas.Repositorys.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,7 @@ namespace GerenciadorDeContas.Repositorys
         }
         public async Task<ContaModel> AdicionarConta(ContaModel conta)
         {
+            conta.Regra = (RegraCalculo.Nenhum).ToString();
             await _dbContext.Conta.AddAsync(conta);
             await _dbContext.SaveChangesAsync(); // confirma a operação na bd
 
@@ -40,7 +42,7 @@ namespace GerenciadorDeContas.Repositorys
             conta.Nome = newConta.Nome;
             conta.ValorOriginal= newConta.ValorOriginal;   
             conta.DataVencimento= newConta.DataVencimento;
-            conta.DataPagamento= newConta.DataPagamento;
+            conta.DataPagamento = newConta.DataPagamento;
         
             _dbContext.Conta.Update(conta);
             await _dbContext.SaveChangesAsync(); //confirma operação

@@ -1,4 +1,7 @@
+using AutoMapper;
 using GerenciadorDeContas.Data;
+using GerenciadorDeContas.DTOs;
+using GerenciadorDeContas.Models;
 using GerenciadorDeContas.Repositorys;
 using GerenciadorDeContas.Repositorys.Interfaces;
 using GerenciadorDeContas.Services;
@@ -29,6 +32,19 @@ namespace GerenciadorDeContas
             builder.Services.AddScoped<IContaRepository, ContaRepository>();
             builder.Services.AddScoped<IContaService, ContaService>();
 
+            //Criando instancia do autoMapper
+            var config = new AutoMapper.MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<ContaModel, ContaDTO>();
+                cfg.CreateMap<ContaDTO, ContaModel>(); 
+                cfg.CreateMap<ContaModel, HistoricoContaDTO>();
+                cfg.CreateMap<HistoricoContaDTO, ContaModel>();
+            });
+            //registrar o IMapper como um serviço
+            IMapper mapper = config.CreateMapper();
+            builder.Services.AddSingleton(mapper);
+
+
 
             var app = builder.Build();
 
@@ -49,11 +65,5 @@ namespace GerenciadorDeContas
             app.Run();
         }
 
-        public static void ConfigureServices(IServiceCollection services)
-        {
-            services
-                .AddScoped<IContaRepository, ContaRepository>();
-                
-        }
     }
 }
