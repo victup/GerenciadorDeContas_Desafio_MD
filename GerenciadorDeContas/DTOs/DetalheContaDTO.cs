@@ -1,6 +1,6 @@
 ﻿namespace GerenciadorDeContas.DTOs
 {
-    public class HistoricoContaDTO
+    public class DetalheContaDTO
     {
         public string? Nome { get; set; }
         public double? ValorOriginal { get; set; }

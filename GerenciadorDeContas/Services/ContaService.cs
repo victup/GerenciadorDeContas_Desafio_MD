@@ -19,22 +19,21 @@ namespace GerenciadorDeContas.Services
             _mapper = mapper;
         }
 
-        public async Task<List<HistoricoContaDTO>> ListarHistoricoDeContas()
+        public async Task<List<DetalheContaDTO>> ListarHistoricoDeContas()
         {
             List<ContaModel> listContaModel = await _contaRepository.BuscarTodasAsContas();
            
-            List<HistoricoContaDTO> listContaDTO = new();
+            List<DetalheContaDTO> listContaDTO = new();
 
-            HistoricoContaDTO contaDTO;
-
-            
-
+            DetalheContaDTO contaDTO;
 
             foreach (var conta in listContaModel)
             {
                 
-                contaDTO = _mapper.Map<HistoricoContaDTO>(conta);
+                contaDTO = _mapper.Map<DetalheContaDTO>(conta);
+
                 contaDTO.ValorCorrigido = CorrigirValor(conta);
+
                 listContaDTO.Add(contaDTO);
             }
 
@@ -103,25 +102,39 @@ namespace GerenciadorDeContas.Services
         {
             if(contaModel == null) return 0;
 
-            RegraCalculo regra = (RegraCalculo)Enum.Parse(typeof(RegraCalculo), contaModel.Regra);  
+            RegraCalculo regra = (RegraCalculo)Enum.Parse(typeof(RegraCalculo), contaModel.Regra);
+
+            double multa, juros, novoValor, valorOriginal = (double)contaModel.ValorOriginal;
+
+            int atrasoDias = (int)contaModel.Atraso;
 
             switch (regra)
             {
                 case RegraCalculo.Nenhum:
-                    return (double)contaModel.ValorOriginal;
-                    break;
-
+                    return valorOriginal;
+                   
                 case RegraCalculo.Ate3:
-                    return (double)(contaModel.ValorOriginal * 2);
-                    break;
+                    multa = valorOriginal * 0.02;
+                    juros = atrasoDias * 0.001;
+                    novoValor = valorOriginal + (multa + juros);
 
+                    return novoValor;
+                   
                 case RegraCalculo.SuperiorA3:
-                    return (double)(contaModel.ValorOriginal * 4);
-                    break;
+                    multa = valorOriginal * 0.03;
+                    juros = atrasoDias * 0.002;
+                    novoValor = valorOriginal + (multa + juros);
+
+                    return novoValor;
+
 
                 default:
-                   return (double)(contaModel.ValorOriginal * 8);
-                    break;
+                    multa = valorOriginal * 0.05;
+                    juros = atrasoDias * 0.003;
+                    novoValor = valorOriginal + (multa + juros);
+
+                    return novoValor;
+
 
             }
 
