@@ -52,6 +52,7 @@ namespace GerenciadorDeContas.Services
         public async Task<ContaDTO> AdicionarConta(ContaDTO conta)
         {
             ContaModel contaModel = _mapper.Map<ContaModel>(conta);
+
             contaModel.Atraso = DiasEmAtraso(Convert.ToDateTime(conta.DataVencimento));
            
             switch (contaModel.Atraso)

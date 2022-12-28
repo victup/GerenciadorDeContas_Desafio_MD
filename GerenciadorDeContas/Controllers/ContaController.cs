@@ -22,6 +22,9 @@ namespace GerenciadorDeContas.Controllers
 
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<List<DetalheContaDTO>>> HistoricoDeContas()
         {
             List<DetalheContaDTO> contas = await _contaService.ListarHistoricoDeContas();
@@ -29,6 +32,9 @@ namespace GerenciadorDeContas.Controllers
         }
 
         [HttpGet("ContasBancoDeDados")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<List<ContaModel>>> BuscarTodasAsContas()
         {
             List<ContaModel> contas = await _contaService.BuscarTodasAsContas();
@@ -36,6 +42,9 @@ namespace GerenciadorDeContas.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<ContaDTO>> BuscarConta(int id)
         {
             ContaDTO conta = await _contaService.BuscarConta(id);
@@ -43,6 +52,9 @@ namespace GerenciadorDeContas.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<ContaDTO>> CadastrarConta([FromBody] ContaDTO contaDTO)
         {
             ContaDTO conta = await _contaService.AdicionarConta(contaDTO);
@@ -50,6 +62,9 @@ namespace GerenciadorDeContas.Controllers
         }
 
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<ContaDTO>> AtualizarConta([FromBody] ContaDTO contaDTO, int id)
         {
             ContaDTO conta = await _contaService.AtualizarConta(contaDTO, id);
@@ -57,6 +72,9 @@ namespace GerenciadorDeContas.Controllers
         }
 
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<bool>> DeletarConta(int id)
         {
             bool deletado = await _contaService.ApagarConta(id);
