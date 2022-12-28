@@ -10,11 +10,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GerenciadorDeContas
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
 
             // Add services to the container.
 
@@ -29,20 +30,7 @@ namespace GerenciadorDeContas
                     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DataBase"))
                 ) ;
 
-            builder.Services.AddScoped<IContaRepository, ContaRepository>();
-            builder.Services.AddScoped<IContaService, ContaService>();
-
-            //Criando instancia do autoMapper
-            var config = new AutoMapper.MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<ContaModel, ContaDTO>();
-                cfg.CreateMap<ContaDTO, ContaModel>(); 
-                cfg.CreateMap<ContaModel, DetalheContaDTO>();
-                cfg.CreateMap<DetalheContaDTO, ContaModel>();
-            });
-            //registrar o IMapper como um serviço
-            IMapper mapper = config.CreateMapper();
-            builder.Services.AddSingleton(mapper);
+            builder.Services.RegisterServices();
 
 
 
@@ -63,6 +51,24 @@ namespace GerenciadorDeContas
             app.MapControllers();
 
             app.Run();
+        }
+
+        public static void RegisterServices(this IServiceCollection services)
+        {
+            services.AddScoped<IContaRepository, ContaRepository>();
+            services.AddScoped<IContaService, ContaService>();
+
+            //Criando instancia do autoMapper
+            var config = new AutoMapper.MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<ContaModel, ContaDTO>();
+                cfg.CreateMap<ContaDTO, ContaModel>();
+                cfg.CreateMap<ContaModel, DetalheContaDTO>();
+                cfg.CreateMap<DetalheContaDTO, ContaModel>();
+            });
+            //registrar o IMapper como um serviço
+            IMapper mapper = config.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
     }
