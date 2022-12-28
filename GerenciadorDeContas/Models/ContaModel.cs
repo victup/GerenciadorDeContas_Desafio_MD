@@ -12,5 +12,8 @@ namespace GerenciadorDeContas.Models
         public int? Atraso { get; set; }
         public string? Regra { get; set; }
 
+        public ContaModel() { }
+
+    
     }
 }

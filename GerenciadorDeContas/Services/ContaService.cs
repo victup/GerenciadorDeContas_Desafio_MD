@@ -13,11 +13,18 @@ namespace GerenciadorDeContas.Services
     {
         private readonly IContaRepository _contaRepository;
         private readonly IMapper _mapper;
+
+        public ContaService()
+        {
+
+        }
+
         public ContaService(IContaRepository contaRepository, IMapper mapper)
         {
             _contaRepository = contaRepository;
             _mapper = mapper;
         }
+
 
         public async Task<List<DetalheContaDTO>> ListarHistoricoDeContas()
         {
@@ -99,7 +106,8 @@ namespace GerenciadorDeContas.Services
 
         }
         
-        private static double CorrigirValor(ContaModel contaModel)
+      
+        protected static double CorrigirValor(ContaModel contaModel)
         {
             if(contaModel == null) return 0;
 
@@ -116,23 +124,23 @@ namespace GerenciadorDeContas.Services
                    
                 case RegraCalculo.Ate3:
                     multa = valorOriginal * 0.02;
-                    juros = atrasoDias * 0.001;
-                    novoValor = valorOriginal + (multa + juros);
+                    juros = valorOriginal * 0.001;
+                    novoValor = valorOriginal + (multa + (juros * atrasoDias));
 
                     return novoValor;
                    
                 case RegraCalculo.SuperiorA3:
                     multa = valorOriginal * 0.03;
-                    juros = atrasoDias * 0.002;
-                    novoValor = valorOriginal + (multa + juros);
+                    juros = valorOriginal * 0.002;
+                    novoValor = valorOriginal + (multa + (juros * atrasoDias));
 
                     return novoValor;
 
 
                 default:
                     multa = valorOriginal * 0.05;
-                    juros = atrasoDias * 0.003;
-                    novoValor = valorOriginal + (multa + juros);
+                    juros = valorOriginal * 0.003;
+                    novoValor = valorOriginal + (multa + (juros * atrasoDias));
 
                     return novoValor;
 

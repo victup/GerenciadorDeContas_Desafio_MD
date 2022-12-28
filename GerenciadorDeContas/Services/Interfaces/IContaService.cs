@@ -11,5 +11,6 @@ namespace GerenciadorDeContas.Services.Interfaces
         Task<ContaDTO> AdicionarConta(ContaDTO conta);
         Task<ContaDTO> AtualizarConta(ContaDTO conta, int id);
         Task<bool> ApagarConta(int id);
+
     }
 }
