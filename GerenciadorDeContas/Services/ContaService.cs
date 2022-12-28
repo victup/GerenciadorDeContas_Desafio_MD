@@ -26,7 +26,7 @@ namespace GerenciadorDeContas.Services
         }
 
 
-        public async Task<List<DetalheContaDTO>> ListarHistoricoDeContas()
+        public async Task<List<DetalheContaDTO>> ListarDetalhesDeContas()
         {
             List<ContaModel> listContaModel = await _contaRepository.BuscarTodasAsContas();
            

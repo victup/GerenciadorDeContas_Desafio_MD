@@ -25,9 +25,9 @@ namespace GerenciadorDeContas.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<List<DetalheContaDTO>>> HistoricoDeContas()
+        public async Task<ActionResult<List<DetalheContaDTO>>> DetalharConta()
         {
-            List<DetalheContaDTO> contas = await _contaService.ListarHistoricoDeContas();
+            List<DetalheContaDTO> contas = await _contaService.ListarDetalhesDeContas();
             return Ok(contas);
         }
 
