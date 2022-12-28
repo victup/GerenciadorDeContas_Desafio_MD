@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GerenciadorDeContas
 {
-    public static class Program
+    internal static class Program
     {
         public static void Main(string[] args)
         {

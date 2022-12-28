@@ -109,8 +109,7 @@ namespace GerenciadorDeContas.Services
       
         protected static double CorrigirValor(ContaModel contaModel)
         {
-            if(contaModel == null) return 0;
-
+          
             RegraCalculo regra = (RegraCalculo)Enum.Parse(typeof(RegraCalculo), contaModel.Regra);
 
             double multa, juros, novoValor, valorOriginal = (double)contaModel.ValorOriginal;
