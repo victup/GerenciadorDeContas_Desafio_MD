@@ -22,9 +22,9 @@ namespace GerenciadorDeContas.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<List<HistoricoContaDTO>>> HistoricoDeContas()
+        public async Task<ActionResult<List<DetalheContaDTO>>> HistoricoDeContas()
         {
-            List<HistoricoContaDTO> contas = await _contaService.ListarHistoricoDeContas();
+            List<DetalheContaDTO> contas = await _contaService.ListarHistoricoDeContas();
             return Ok(contas);
         }
 

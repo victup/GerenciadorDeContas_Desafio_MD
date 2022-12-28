@@ -9,7 +9,7 @@ namespace GerenciadorDeContas.Mappings
         MappingProfile()
         {
             CreateMap<ContaModel, ContaDTO>().ReverseMap();
-            CreateMap<ContaModel, HistoricoContaDTO>().ReverseMap();
+            CreateMap<ContaModel, DetalheContaDTO>().ReverseMap();
         }
     }
 }

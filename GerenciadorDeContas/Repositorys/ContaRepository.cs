@@ -24,7 +24,6 @@ namespace GerenciadorDeContas.Repositorys
         }
         public async Task<ContaModel> AdicionarConta(ContaModel conta)
         {
-            conta.Regra = (RegraCalculo.Nenhum).ToString();
             await _dbContext.Conta.AddAsync(conta);
             await _dbContext.SaveChangesAsync(); // confirma a operação na bd
 

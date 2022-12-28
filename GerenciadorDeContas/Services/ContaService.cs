@@ -4,6 +4,8 @@ using GerenciadorDeContas.Enums;
 using GerenciadorDeContas.Models;
 using GerenciadorDeContas.Repositorys.Interfaces;
 using GerenciadorDeContas.Services.Interfaces;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using System.Linq.Expressions;
 
 namespace GerenciadorDeContas.Services
 {
@@ -19,26 +21,24 @@ namespace GerenciadorDeContas.Services
 
         public async Task<List<HistoricoContaDTO>> ListarHistoricoDeContas()
         {
-            List<ContaModel> listConta = await _contaRepository.BuscarTodasAsContas();
-            Console.WriteLine(listConta);
+            List<ContaModel> listContaModel = await _contaRepository.BuscarTodasAsContas();
+           
+            List<HistoricoContaDTO> listContaDTO = new();
+
+            HistoricoContaDTO contaDTO;
+
             
-            List<HistoricoContaDTO> listaHistoricoContas = new();
-            HistoricoContaDTO historicoConta ;
 
 
-            foreach (var conta in listConta)
+            foreach (var conta in listContaModel)
             {
-                historicoConta = new();
-                historicoConta.Nome = conta.Nome;    
-                historicoConta.ValorOriginal = conta.ValorOriginal;
-                historicoConta.ValorCorrigido = 1100;
-                historicoConta.DiasAtrasados = 2;
-                historicoConta.DataPagamento = conta.DataPagamento;
-
-                listaHistoricoContas.Add(historicoConta);
+                
+                contaDTO = _mapper.Map<HistoricoContaDTO>(conta);
+                contaDTO.ValorCorrigido = CorrigirValor(conta);
+                listContaDTO.Add(contaDTO);
             }
 
-            return listaHistoricoContas;
+            return listContaDTO;
 
         }
         public async Task<ContaDTO> BuscarConta(int id)
@@ -53,8 +53,28 @@ namespace GerenciadorDeContas.Services
         public async Task<ContaDTO> AdicionarConta(ContaDTO conta)
         {
             ContaModel contaModel = _mapper.Map<ContaModel>(conta);
-            contaModel.Atraso = 0;
-            contaModel.Regra = RegraCalculo.Nenhum.ToString();
+            contaModel.Atraso = DiasEmAtraso(Convert.ToDateTime(conta.DataVencimento));
+           
+            switch (contaModel.Atraso)
+            {
+                case 0:
+                    contaModel.Regra = RegraCalculo.Nenhum.ToString();
+                break;
+
+                case <= 3:
+                    contaModel.Regra = RegraCalculo.Ate3.ToString();
+                break;
+
+                case <= 10:
+                    contaModel.Regra = RegraCalculo.SuperiorA3.ToString();
+                break;
+
+                default: 
+                    contaModel.Regra = RegraCalculo.SuperiorA10.ToString();
+                break;
+
+            }
+             
             return _mapper.Map<ContaDTO>(await _contaRepository.AdicionarConta(contaModel));
         }
 
@@ -72,5 +92,42 @@ namespace GerenciadorDeContas.Services
             return _mapper.Map<ContaDTO>(await _contaRepository.AtualizarConta(contaModel, id));
         }
 
+        private static int DiasEmAtraso(DateTime vencimento)
+        {
+          int dias = vencimento.Subtract(DateTime.Now).Days;
+            return Math.Abs(dias); //valor absoluto sem sinais
+
+        }
+        
+        private static double CorrigirValor(ContaModel contaModel)
+        {
+            if(contaModel == null) return 0;
+
+            RegraCalculo regra = (RegraCalculo)Enum.Parse(typeof(RegraCalculo), contaModel.Regra);  
+
+            switch (regra)
+            {
+                case RegraCalculo.Nenhum:
+                    return (double)contaModel.ValorOriginal;
+                    break;
+
+                case RegraCalculo.Ate3:
+                    return (double)(contaModel.ValorOriginal * 2);
+                    break;
+
+                case RegraCalculo.SuperiorA3:
+                    return (double)(contaModel.ValorOriginal * 4);
+                    break;
+
+                default:
+                   return (double)(contaModel.ValorOriginal * 8);
+                    break;
+
+            }
+
+        }
+
     }
+
+      
 }

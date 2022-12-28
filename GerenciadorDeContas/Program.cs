@@ -37,8 +37,8 @@ namespace GerenciadorDeContas
             {
                 cfg.CreateMap<ContaModel, ContaDTO>();
                 cfg.CreateMap<ContaDTO, ContaModel>(); 
-                cfg.CreateMap<ContaModel, HistoricoContaDTO>();
-                cfg.CreateMap<HistoricoContaDTO, ContaModel>();
+                cfg.CreateMap<ContaModel, DetalheContaDTO>();
+                cfg.CreateMap<DetalheContaDTO, ContaModel>();
             });
             //registrar o IMapper como um serviço
             IMapper mapper = config.CreateMapper();
