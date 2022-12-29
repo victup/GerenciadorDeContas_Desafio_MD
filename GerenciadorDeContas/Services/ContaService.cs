@@ -60,7 +60,7 @@ namespace GerenciadorDeContas.Services
         {
             ContaModel contaModel = _mapper.Map<ContaModel>(conta);
 
-            contaModel.Atraso = DiasEmAtraso(Convert.ToDateTime(conta.DataVencimento));
+            contaModel.Atraso = DiasEmAtraso(Convert.ToDateTime(conta.DataVencimento), Convert.ToDateTime(contaModel.DataPagamento));
            
             switch (contaModel.Atraso)
             {
@@ -99,9 +99,9 @@ namespace GerenciadorDeContas.Services
             return _mapper.Map<ContaDTO>(await _contaRepository.AtualizarConta(contaModel, id));
         }
 
-        private static int DiasEmAtraso(DateTime vencimento)
+        private static int DiasEmAtraso(DateTime vencimento, DateTime pagamento)
         {
-          int dias = vencimento.Subtract(DateTime.Now).Days;
+          int dias = vencimento.Subtract(pagamento).Days;
             return Math.Abs(dias); //valor absoluto sem sinais
 
         }
