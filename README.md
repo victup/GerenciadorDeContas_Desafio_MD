@@ -31,7 +31,7 @@ Utiliza mecanismos e técnicas como:
  
  > Update-Database -Context GerenciadorDeContasDbContext
  
- ![image](https://user-images.githubusercontent.com/38474570/209890958-af47a62d-4d61-4b5a-8675-dcd4ab87bf26.png)
+![image](https://user-images.githubusercontent.com/38474570/209891367-1749b41e-1ed7-449b-83e8-fb16ce226d8c.png)
 
  Ao rodar o comando, você perceberá que a tabela foi criada. 
  
