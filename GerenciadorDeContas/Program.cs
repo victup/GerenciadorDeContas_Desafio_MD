@@ -32,7 +32,19 @@ namespace GerenciadorDeContas
 
             builder.Services.RegisterServices();
 
+            //habilitando cors
 
+            var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  policy =>
+                                  {
+                                      policy.WithOrigins("https://localhost:7101/api/Conta",
+                                                          "https://localhost:7101/api/Conta/Atualizar");
+                                  });
+            });
 
             var app = builder.Build();
 
@@ -47,6 +59,7 @@ namespace GerenciadorDeContas
 
             app.UseAuthorization();
 
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.MapControllers();
 
