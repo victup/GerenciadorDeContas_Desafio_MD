@@ -10,6 +10,7 @@ Utiliza mecanismos e técnicas como:
 - Testes Unitários;
 - AutoMapper - Mapeamento de objetos;
 - DTOs - Objeto de Transferência de Dados;
+- Front-end em Angular >>> https://github.com/victup/DesafioMD_GerenciadorDeContasFrontAngular
 
 
 
